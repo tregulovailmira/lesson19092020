@@ -1,27 +1,29 @@
 'use strict';
 
-const list = document.getElementById('list');
-fetch('../../user.json')
-    .then((res) => res.json())
-    .then((users) => {
-        users.forEach((user) => {
-            setUserToList(user);
-        })
-    })
-    .catch(console.error);
-
-
-function createListItem(value) {
-    const li = document.createElement('li');
-    list.append(li);
-    li.append(value);
-    return li;
-}
-
-function setUserToList(user) {
-    const userInfo = [];
-    for(const [key, value] of Object.entries(user)){
-        userInfo.push(` ${key}: ${value}`);
+let i = 1;
+console.time('timeout')
+let timeOutId = setTimeout(function logNumbersWithTimeout() {
+    console.log(i);
+    i++;
+    timeOutId = setTimeout(logNumbersWithTimeout, 100);
+    if (i > 20) {
+        clearInterval(timeOutId);
+        console.timeEnd('timeout');
     }
-    createListItem(userInfo);
+}, 100);
+
+console.time('interval')
+logNumbersWithInterval();
+
+function logNumbersWithInterval() {
+    let i = 1;
+    const intervalId = setInterval(() => {
+        console.log(i);
+        i++;
+
+        if (i > 20) {
+            clearInterval(intervalId);
+            console.timeEnd('interval');
+        }
+    }, 100);
 }
