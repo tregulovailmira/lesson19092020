@@ -1,19 +1,23 @@
 'use strict';
 
-let i = 1;
-console.time('timeout')
-let timeOutId = setTimeout(function logNumbersWithTimeout() {
-    console.log(i);
-    i++;
-    timeOutId = setTimeout(logNumbersWithTimeout, 100);
-    if (i > 20) {
-        clearInterval(timeOutId);
-        console.timeEnd('timeout');
-    }
-}, 100);
+console.time('timeout');
+logNumbersWithTimeout();
 
 console.time('interval')
 logNumbersWithInterval();
+
+function logNumbersWithTimeout() {
+    let i = 1;
+    let timeoutId = setTimeout(function logNumbers() {
+        console.log(i);
+        i++;
+        timeoutId = setTimeout(logNumbers, 100);
+        if (i > 20) {
+            clearInterval(timeoutId);
+            console.timeEnd('timeout');
+        }
+    }, 100);
+}
 
 function logNumbersWithInterval() {
     let i = 1;
